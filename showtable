@@ -1,0 +1,341 @@
+#!/eci/bin/perl
+# showtable - read data and show it
+#
+# showtable [options] [file]
+#
+# This script acts as a filter, reading data in columns and displaying
+# the data in a nicely formatted output.  The output can be either
+# a list style, simple table, boxed table, or HTML-formatted table.
+#
+# The input styles accepted are: tab-delimited, comma-delimited,
+# list-style, simple-style tables, and boxed tables.
+#
+# The default is tab-delimited data
+#
+# Use -f<char> to set the field separation character. Eg: -f,
+#
+# Other options: -table, -html, -box, -list
+#
+# If no file is given, STDIN is used by default.
+#
+# $Id: showtable,v 1.1 1996/02/28 23:17:33 aks Exp $
+# $Source: /fs/eci1c/home/staff/aks/src/lib/perl/ShowTable/RCS/showtable,v $
+#
+# Author: Alan K. Stebbens
+#
+
+($DIR,$PROG) = $0 =~ m=^(.*/)?([^/]+)$=;
+$DIR =~ s=/$== || chop($DIR = `pwd`);
+
+use ShowTable;
+use OutPut;
+
+sub ShowData;
+sub max;
+
+sub usage {
+    err @_ if $#_ >= 0;
+    err <<EOF;
+usage: $PROG [options] [file]
+Read the file, or STDIN by default, and produce a nicely formatted listing
+of columnar data.  By default, columns of data should be separated by tabs, 
+and is assumed to have no titles.  Lines of all spaces and any of the 
+characters "-+_=" will be ignored as separator lines, unless -nodashes is 
+given.
+
+Options affecting input:
+  -fC           set the inter-column break character to "C".  The default
+		is a tab character.
+  -nod(ashes)   Do not ignore lines of separators, such as dashes, equal 
+		signs, or underlines.
+  -titles[=NN]	Treat the first NN rows of data as column titles; multiple
+		words in the column titles may wrap vertically. If NN is
+		omitted, it defaults to 1.  If no -titles is given at all,
+		NN defaults to 0.
+  -strip        Strip blanks from around the column values.
+
+The options controlling the output are:
+  -table	use a simple table format
+  -list         use a list style format
+  -box          use a "boxed" style table
+  -html         use HTML-formating
+  -noh(eaders)  do not output any headers on the tables; -titles=0 implies
+		this option.
+EOF
+    exit;
+}
+
+$break_char = "\t";
+$Titles = 0;
+
+$nofile = 1;
+while ($_ = shift(@ARGV)) {
+    if (!index('-help',$_)) {		usage; }
+    if (/^-f(.)/) {
+	$break_char = $1 || shift || die "$PROG: Missing argument to -f\n";
+	next;
+    }
+    # if -KEY=VALUE given, extract VALUE, and leave $_ as -KEY.
+    if (/^(-\w+)(?:[:=](.*))?/) {
+	($_, $value) = ($1, $2);
+    }
+    if (!index('-strip',$_)) {		$Strip_spaces = 1;	next; }
+    if (!index('-table',$_)) {		$Show_Mode = 'Table';	next; }
+    if (!index('-list', $_)) {		$Show_Mode = 'List';	next; }
+    if (!index('-box',$_)) {		$Show_Mode = 'Box';	next; }
+    if (!index('-html',$_)) {		$Show_Mode = 'HTML';	next; }
+    if (!index('-noheaders',$_)) { 	$No_Header = 1;		next; }
+    if (!index('-nodashes',$_)) {	$No_Dashes = 1;		next; }
+    if (!index('-titles',$_)) {		$Titles = $value || 1;	next; }
+
+    if (/^-/) {	die "$PROG: Unknown option: $_\n"; }
+    if (-f) {		# does the file exist?
+	open(STDIN,"<$_") || die "$PROG: Can't open $_ for input: $!\n";
+	ShowData;
+	close(STDIN);
+	$nofile = 0;
+    }
+}
+
+ShowData if $nofile;
+
+exit;
+
+# Read in next row of data into $_; return \@data.
+
+sub NextRow {
+    while (1) {
+	$_ = <STDIN>;
+	return () unless $_;
+	chop($_);
+	# ignore blanks lines, and separator lines if allowed
+	last if $No_Dashes or !/^[-_=+ \t]*$/;
+    }
+    my @data = ();
+    if ($Strip_spaces) {
+	@data = split(/\s*$break_char\s*/, $_);
+    } else {
+	@data = split(/$break_char/, $_);
+    }
+    \@data;
+}
+
+# $type = guess_type $value
+
+sub guess_type {
+    local $_ = shift;
+    s/^\s+//; s/\s+$//;			# trim leading & trailing blanks
+    /^([01tf]|yes|no|on|off)$/i		&& return 'bool';	# 0, 1, yes, no, on, off, t, f
+    /^[-+]?\d+$/			&& return 'int';	# +-nnnn
+    /^[-+]?[\d.]+(E[+-]?\d+)?$/		&& return 'real';	# +-nnn.nnn(E+-nn)
+    /^\(?\$[ \d,.]+\)?$/		&& return 'money';	# ($  nnn,nnn.nn)
+    m=^\d{2,4}[-/]\d{1,2}[-/]\d{1,2}$=	&& return 'date';	# mm/dd/yy
+    /^\w{3,9} \d{1,2}, \d{4}/		&& return 'date';	# mmmm dd, yyyy
+    /^\d{1,2}[- ]\w{3}[- ]\d{2,4}$/	&& return 'date';	# dd mmm yyyy
+    /^\d\d:\d\d(:\d\d)?$/		&& return 'time';	# hh:mm:ss
+    /^['"]|["']$/			&& return 'string';	# "xxxx"
+    /^\w+$/				&& return 'symbol';
+    /\n/				&& return 'text';
+    					   return 'char';
+}
+
+# Do type conversion
+
+sub new_type {
+    my @types = @_;
+    my $type1 = $types[0];
+    my $type2 = $types[1];
+
+    # trivial conversions
+    $type1 eq '' 	&& return $type2;
+    $type2 eq ''	&& return $type1;
+    $type1 eq $type2	&& return $type1;
+
+    # These types supercede others
+    grep(/text/i,	@types)	&& return 'text';
+    grep(/string/i,	@types)	&& return 'string';
+    grep(/char/i,	@types)	&& return 'char';
+
+    # Now do finer-grain conversions
+    grep(/money/i,	@types)	&& return 'money';
+    grep(/real/i,	@types) && return 'real';
+    grep(/int/i,	@types) && return 'int';
+    grep(/symbol/i,	@types) && return 'symbol';
+    grep(/bool/i,	@types) && return 'bool';
+
+    $type1;		# huh?
+}
+
+sub ShowData {
+    @Data = ();
+    @Titles = ();
+    @Types = ();
+    @Widths = ();
+    my $data;
+    if ($Titles > 0) {
+	@Titles = @{&NextRow};
+	# if there are multiple lines of titles, combine them
+	my $limit;
+	for ($r = 1; $r < $Titles; $r++) {
+	    $data = NextRow;	# get the next row of data
+	    $limit = max $#Titles, $#$data;
+	    for ($c = 0; $c <= $limit; $c++) {
+		$Titles[$c] .= ' '.$data->[$c];	# combine titles
+	    }
+	}
+	foreach (@Titles) {	# clean up the names
+	    s/^\s+//;	# trim leading &
+	    s/\s+$//;	#  trailing blanks
+	    s/\s+/ /g;	# & squeeze middle blanks
+	}
+    }
+    my $maxcols = 0;
+    while ($data = NextRow) {
+	push(@Data, $data);	# collect the data
+	$maxcols = max $#$data, $maxcols;
+    }
+    # If no header, make sure @Titles array is empty
+    if ($No_Header or $Titles == 0) {
+	@Titles = ();
+    } elsif ($Titles == 0) {	# otherwise, provide default titles
+	for ($c = 0; $c <= $maxcols; $c++) {
+	    $Titles[$c] = sprintf("Field %d", $c + 1);
+	}
+    }
+    # Now let's analyze the data
+    for ($c = 0; $c <= $maxcols; $c++) {	# Scan each column
+	$type = '';				# assume no default
+	$width = $#Titles >= 0 ? length($Titles[$c]) : 0;
+	for ($r = 0; $r < $#Data; $r++) {	# scan each row
+	    $row = $Data[$r];			# get the row data
+	    $val = $row->[$c];			# get the column data
+	    $len = length($val);		# get the column length
+	    $width = max $len, $width;
+	    $newtype = guess_type $val;
+	    $type = new_type $type, $newtype;
+	}
+	$Types[$c] = $type;
+	$Widths[$c] = $width;
+    }
+    local $theRow;
+    $ShowTable::Show_Mode = $Show_Mode;		# set the mode for display
+    ShowTable \@Titles, \@Types, \@Widths, 
+	sub { &ShowRow( $_[0], \$theRow, \@Data ); };
+}
+
+sub max {
+    my $max = shift;
+    foreach (@_) { $max = $_ if $_ > $max; }
+    $max;
+}
+
+__END__
+
+=head1 NAME
+
+B<showtable> - Show data in nicely formatted columns
+
+=head1 USAGE
+
+B<showtable> [-I<options>] [I<file>]
+
+=head1 DESCRIPTION
+
+B<Showtable> reads an input data stream and displays it in a nicely formatted
+listing, with exact formatting depending upon the options.  The input stream, I<file> 
+or C<STDIN> by default should consist of data separated by tabs or the defined
+I<separator> character (see B<-f>).
+
+The actual output formatting is peformed by the B<ShowTable> module.
+
+=head1 OPTIONS
+
+There are two general sets of options: those which help determine the format of the
+input, and those which determine the format of the output.
+
+=head2 B<Options affecting input>
+
+=over 10
+
+=item B<-f>I<C>
+
+Set the inter-column break character to "I<C>".  The default
+is a tab character.  If B<-strip> is also given, blanks surrounding
+the break character will also be ignored.
+
+=item B<-nod(ashes)>
+
+Do not ignore lines of separators, such as dashes, equal 
+signs, or underlines.  If B<-nodashes> is given, and these lines do occur
+in the stream, they will be treated as normal data.
+
+=item B<-ti(tles)[=>I<NN>B<]>
+
+Treat the first I<NN> rows of data as column titles; multiple
+words in the column titles may wrap vertically. If I<NN> is
+omitted, it defaults to 1.  No B<-titles> option is the same
+as B<-titles=0>.
+
+=item B<-s(trip)>
+
+Strip blanks from around the column values.
+
+=back
+
+=head2 B<Options affecting output>
+
+=over 10
+
+=item B<-t(able)>
+
+Use a simple table format.  See L<ShowTable> for more details.
+
+=item B<-l(ist)>
+
+Use a list style format.  See L<ShowTable> for more details.
+
+=item B<-b(ox)>
+
+Use a "boxed" style table.  See L<ShowTable> for more details.
+
+=item B<-ht(ml)>
+
+Use HTML-formating.  See L<ShowTable> for more details.
+
+=item B<-noh(eaders)>
+
+Do not output any headers on the tables; B<-titles=0> implies this option.
+
+=back
+
+=head2 B<Other options>
+
+=over 10
+
+=item B<-help>
+
+Display some help to the user and quit.
+
+=back
+
+=head1 DEPENDENCIES
+
+=over 20
+
+=item B<ShowTable.pm>
+
+Performs the actual output formatting.
+
+=item B<OutPut.pm>
+
+Used for output to C<STDOUT> and C<STDERR>.
+
+=back
+
+=head1 AUTHOR
+
+Alan K. Stebbens I<aks@hub.ucsb.edu>
+
+=head1 BUGS
+
+=cut

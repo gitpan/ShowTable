@@ -1,0 +1,356 @@
+
+Testing ShowTable with titles
+
+ +-------+----------------+----------+------------------------+
+ | Index |      Name      |  Phone   |        Address         |
+ +-------+----------------+----------+------------------------+
+ | 1     | Alan Stebbens  | 555-1234 | 1234 Something St., CA |
+ | 2     | Bob Frankel    | 555-1235 | 9234 Nowhere Way, WA   |
+ | 3     | Mr. Goodwrench | 555-9432 | 1238 Car Lane Pl., NY  |
+ | 4     | Mr. Ed         | 555-3215 | 9876 Cowbarn Home, VA  |
+ +-------+----------------+----------+------------------------+
+
+
+Testing ShowSimpleTable with titles
+
+ Index       Name        Phone           Address          
+ -----  --------------  --------  ----------------------  
+ 1      Alan Stebbens   555-1234  1234 Something St., CA 
+ 2      Bob Frankel     555-1235  9234 Nowhere Way, WA   
+ 3      Mr. Goodwrench  555-9432  1238 Car Lane Pl., NY  
+ 4      Mr. Ed          555-3215  9876 Cowbarn Home, VA  
+
+
+Testing ShowListTable with titles
+
+Index   : 1
+Name    : Alan Stebbens
+Phone   : 555-1234
+Address : 1234 Something St., CA
+
+Index   : 2
+Name    : Bob Frankel
+Phone   : 555-1235
+Address : 9234 Nowhere Way, WA
+
+Index   : 3
+Name    : Mr. Goodwrench
+Phone   : 555-9432
+Address : 1238 Car Lane Pl., NY
+
+Index   : 4
+Name    : Mr. Ed
+Phone   : 555-3215
+Address : 9876 Cowbarn Home, VA
+
+
+Testing ShowHTMLTable with titles
+
+<TABLE BORDER=1>
+<TR>
+ <TH ALIGN=CENTER WIDTH=10%>Index</TH>
+ <TH ALIGN=CENTER WIDTH=28%>Name</TH>
+ <TH ALIGN=CENTER WIDTH=16%>Phone</TH>
+ <TH ALIGN=CENTER WIDTH=44%>Address</TH>
+</TR>
+<TR>
+ <TD ALIGN=RIGHT>1</TD><TD ALIGN=LEFT>Alan Stebbens</TD><TD ALIGN=LEFT>555-1234</TD><TD ALIGN=LEFT>1234 Something St., CA</TD>
+</TR>
+<TR>
+ <TD ALIGN=RIGHT>2</TD><TD ALIGN=LEFT>Bob Frankel</TD><TD ALIGN=LEFT>555-1235</TD><TD ALIGN=LEFT>9234 Nowhere Way, WA</TD>
+</TR>
+<TR>
+ <TD ALIGN=RIGHT>3</TD><TD ALIGN=LEFT>Mr. Goodwrench</TD><TD ALIGN=LEFT>555-9432</TD><TD ALIGN=LEFT>1238 Car Lane Pl., NY</TD>
+</TR>
+<TR>
+ <TD ALIGN=RIGHT>4</TD><TD ALIGN=LEFT>Mr. Ed</TD><TD ALIGN=LEFT>555-3215</TD><TD ALIGN=LEFT>9876 Cowbarn Home, VA</TD>
+</TR>
+</TABLE>
+
+Testing ShowBoxTable with titles
+
+ +-------+----------------+----------+------------------------+
+ | Index |      Name      |  Phone   |        Address         |
+ +-------+----------------+----------+------------------------+
+ | 1     | Alan Stebbens  | 555-1234 | 1234 Something St., CA |
+ | 2     | Bob Frankel    | 555-1235 | 9234 Nowhere Way, WA   |
+ | 3     | Mr. Goodwrench | 555-9432 | 1238 Car Lane Pl., NY  |
+ | 4     | Mr. Ed         | 555-3215 | 9876 Cowbarn Home, VA  |
+ +-------+----------------+----------+------------------------+
+
+
+Testing ShowTable without titles
+
+ +---+----------------+----------+------------------------+
+ | 1 | Alan Stebbens  | 555-1234 | 1234 Something St., CA |
+ | 2 | Bob Frankel    | 555-1235 | 9234 Nowhere Way, WA   |
+ | 3 | Mr. Goodwrench | 555-9432 | 1238 Car Lane Pl., NY  |
+ | 4 | Mr. Ed         | 555-3215 | 9876 Cowbarn Home, VA  |
+ +---+----------------+----------+------------------------+
+
+
+Testing ShowSimpleTable without titles
+
+ -  --------------  --------  ----------------------  
+ 1  Alan Stebbens   555-1234  1234 Something St., CA 
+ 2  Bob Frankel     555-1235  9234 Nowhere Way, WA   
+ 3  Mr. Goodwrench  555-9432  1238 Car Lane Pl., NY  
+ 4  Mr. Ed          555-3215  9876 Cowbarn Home, VA  
+
+
+Testing ShowListTable without titles
+
+Field 1  : 1
+Field 2  : Alan Stebbens
+Field 3  : 555-1234
+Field 4  : 1234 Something St., CA
+
+Field 1  : 2
+Field 2  : Bob Frankel
+Field 3  : 555-1235
+Field 4  : 9234 Nowhere Way, WA
+
+Field 1  : 3
+Field 2  : Mr. Goodwrench
+Field 3  : 555-9432
+Field 4  : 1238 Car Lane Pl., NY
+
+Field 1  : 4
+Field 2  : Mr. Ed
+Field 3  : 555-3215
+Field 4  : 9876 Cowbarn Home, VA
+
+
+Testing ShowHTMLTable without titles
+
+<TABLE BORDER=1>
+<TR>
+ <TH ALIGN=CENTER WIDTH=2%></TH>
+ <TH ALIGN=CENTER WIDTH=31%></TH>
+ <TH ALIGN=CENTER WIDTH=17%></TH>
+ <TH ALIGN=CENTER WIDTH=48%></TH>
+</TR>
+<TR>
+ <TD ALIGN=RIGHT>1</TD><TD ALIGN=LEFT>Alan Stebbens</TD><TD ALIGN=LEFT>555-1234</TD><TD ALIGN=LEFT>1234 Something St., CA</TD>
+</TR>
+<TR>
+ <TD ALIGN=RIGHT>2</TD><TD ALIGN=LEFT>Bob Frankel</TD><TD ALIGN=LEFT>555-1235</TD><TD ALIGN=LEFT>9234 Nowhere Way, WA</TD>
+</TR>
+<TR>
+ <TD ALIGN=RIGHT>3</TD><TD ALIGN=LEFT>Mr. Goodwrench</TD><TD ALIGN=LEFT>555-9432</TD><TD ALIGN=LEFT>1238 Car Lane Pl., NY</TD>
+</TR>
+<TR>
+ <TD ALIGN=RIGHT>4</TD><TD ALIGN=LEFT>Mr. Ed</TD><TD ALIGN=LEFT>555-3215</TD><TD ALIGN=LEFT>9876 Cowbarn Home, VA</TD>
+</TR>
+</TABLE>
+
+Testing ShowBoxTable without titles
+
+ +---+----------------+----------+------------------------+
+ | 1 | Alan Stebbens  | 555-1234 | 1234 Something St., CA |
+ | 2 | Bob Frankel    | 555-1235 | 9234 Nowhere Way, WA   |
+ | 3 | Mr. Goodwrench | 555-9432 | 1238 Car Lane Pl., NY  |
+ | 4 | Mr. Ed         | 555-3215 | 9876 Cowbarn Home, VA  |
+ +---+----------------+----------+------------------------+
+
+
+Testing ShowTable with titles
+
+ +--------+------------------------------------------+
+ |  Name  |                Biography                 |
+ +--------+------------------------------------------+
+ | Alan   | This is a very long line of text which  <|
+ |        |>simulates a text string which is        <|
+ |        |>supposed to wrap in its field width.     |
+ | Kevin  | This is another long line of text which <|
+ |        |>will also wrap so I can see if this     <|
+ |        |>part of ShowTable really works as       <|
+ |        |>designed.  If not it's back to the      <|
+ |        |>drawing board.                           |
+ | Toad   | This is a short line                     |
+ | Monica | This is another short line               |
+ | Stu    | Finally, here is another long line      <|
+ |        |>which shold wrap but maybe not           |
+ +--------+------------------------------------------+
+
+
+Testing ShowSimpleTable with titles
+
+  Name                  Biography                  
+ ------  ----------------------------------------  
+ Alan    This is a very long line of text which  <
+        >simulates a text string which is        <
+        >supposed to wrap in its field width.     
+ Kevin   This is another long line of text which <
+        >will also wrap so I can see if this     <
+        >part of ShowTable really works as       <
+        >designed.  If not it's back to the      <
+        >drawing board.                           
+ Toad    This is a short line                     
+ Monica  This is another short line               
+ Stu     Finally, here is another long line      <
+        >which shold wrap but maybe not           
+
+
+Testing ShowListTable with titles
+
+Name      : Alan
+Biography : This is a very long line of text which simulates a text string which is 
+          : supposed to wrap in its field width.
+
+Name      : Kevin
+Biography : This is another long line of text which will also wrap so I can see if this 
+          : part of ShowTable really works as designed.  If not it's back to the drawing 
+          : board.
+
+Name      : Toad
+Biography : This is a short line
+
+Name      : Monica
+Biography : This is another short line
+
+Name      : Stu
+Biography : Finally, here is another long line which shold wrap but maybe not
+
+
+Testing ShowHTMLTable with titles
+
+<TABLE BORDER=1>
+<TR>
+ <TH ALIGN=CENTER WIDTH=13%>Name</TH>
+ <TH ALIGN=CENTER WIDTH=86%>Biography</TH>
+</TR>
+<TR>
+ <TD ALIGN=LEFT>Alan</TD><TD ALIGN=LEFT>This is a very long line of text which simulates a text string which is supposed to wrap in its field width.</TD>
+</TR>
+<TR>
+ <TD ALIGN=LEFT>Kevin</TD><TD ALIGN=LEFT>This is another long line of text which will also wrap so I can see if this part of ShowTable really works as designed.  If not it's back to the drawing board.</TD>
+</TR>
+<TR>
+ <TD ALIGN=LEFT>Toad</TD><TD ALIGN=LEFT>This is a short line</TD>
+</TR>
+<TR>
+ <TD ALIGN=LEFT>Monica</TD><TD ALIGN=LEFT>This is another short line</TD>
+</TR>
+<TR>
+ <TD ALIGN=LEFT>Stu</TD><TD ALIGN=LEFT>Finally, here is another long line which shold wrap but maybe not</TD>
+</TR>
+</TABLE>
+
+Testing ShowBoxTable with titles
+
+ +--------+------------------------------------------+
+ |  Name  |                Biography                 |
+ +--------+------------------------------------------+
+ | Alan   | This is a very long line of text which  <|
+ |        |>simulates a text string which is        <|
+ |        |>supposed to wrap in its field width.     |
+ | Kevin  | This is another long line of text which <|
+ |        |>will also wrap so I can see if this     <|
+ |        |>part of ShowTable really works as       <|
+ |        |>designed.  If not it's back to the      <|
+ |        |>drawing board.                           |
+ | Toad   | This is a short line                     |
+ | Monica | This is another short line               |
+ | Stu    | Finally, here is another long line      <|
+ |        |>which shold wrap but maybe not           |
+ +--------+------------------------------------------+
+
+
+Testing ShowTable without titles
+
+ +--------+------------------------------------------+
+ | Alan   | This is a very long line of text which  <|
+ |        |>simulates a text string which is        <|
+ |        |>supposed to wrap in its field width.     |
+ | Kevin  | This is another long line of text which <|
+ |        |>will also wrap so I can see if this     <|
+ |        |>part of ShowTable really works as       <|
+ |        |>designed.  If not it's back to the      <|
+ |        |>drawing board.                           |
+ | Toad   | This is a short line                     |
+ | Monica | This is another short line               |
+ | Stu    | Finally, here is another long line      <|
+ |        |>which shold wrap but maybe not           |
+ +--------+------------------------------------------+
+
+
+Testing ShowSimpleTable without titles
+
+ ------  ----------------------------------------  
+ Alan    This is a very long line of text which  <
+        >simulates a text string which is        <
+        >supposed to wrap in its field width.     
+ Kevin   This is another long line of text which <
+        >will also wrap so I can see if this     <
+        >part of ShowTable really works as       <
+        >designed.  If not it's back to the      <
+        >drawing board.                           
+ Toad    This is a short line                     
+ Monica  This is another short line               
+ Stu     Finally, here is another long line      <
+        >which shold wrap but maybe not           
+
+
+Testing ShowListTable without titles
+
+Field 1  : Alan
+Field 2  : This is a very long line of text which simulates a text string which is 
+         : supposed to wrap in its field width.
+
+Field 1  : Kevin
+Field 2  : This is another long line of text which will also wrap so I can see if this 
+         : part of ShowTable really works as designed.  If not it's back to the drawing 
+         : board.
+
+Field 1  : Toad
+Field 2  : This is a short line
+
+Field 1  : Monica
+Field 2  : This is another short line
+
+Field 1  : Stu
+Field 2  : Finally, here is another long line which shold wrap but maybe not
+
+
+Testing ShowHTMLTable without titles
+
+<TABLE BORDER=1>
+<TR>
+ <TH ALIGN=CENTER WIDTH=13%></TH>
+ <TH ALIGN=CENTER WIDTH=86%></TH>
+</TR>
+<TR>
+ <TD ALIGN=LEFT>Alan</TD><TD ALIGN=LEFT>This is a very long line of text which simulates a text string which is supposed to wrap in its field width.</TD>
+</TR>
+<TR>
+ <TD ALIGN=LEFT>Kevin</TD><TD ALIGN=LEFT>This is another long line of text which will also wrap so I can see if this part of ShowTable really works as designed.  If not it's back to the drawing board.</TD>
+</TR>
+<TR>
+ <TD ALIGN=LEFT>Toad</TD><TD ALIGN=LEFT>This is a short line</TD>
+</TR>
+<TR>
+ <TD ALIGN=LEFT>Monica</TD><TD ALIGN=LEFT>This is another short line</TD>
+</TR>
+<TR>
+ <TD ALIGN=LEFT>Stu</TD><TD ALIGN=LEFT>Finally, here is another long line which shold wrap but maybe not</TD>
+</TR>
+</TABLE>
+
+Testing ShowBoxTable without titles
+
+ +--------+------------------------------------------+
+ | Alan   | This is a very long line of text which  <|
+ |        |>simulates a text string which is        <|
+ |        |>supposed to wrap in its field width.     |
+ | Kevin  | This is another long line of text which <|
+ |        |>will also wrap so I can see if this     <|
+ |        |>part of ShowTable really works as       <|
+ |        |>designed.  If not it's back to the      <|
+ |        |>drawing board.                           |
+ | Toad   | This is a short line                     |
+ | Monica | This is another short line               |
+ | Stu    | Finally, here is another long line      <|
+ |        |>which shold wrap but maybe not           |
+ +--------+------------------------------------------+
+

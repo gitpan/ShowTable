@@ -1,0 +1,37 @@
+ShowTable.pm is a Perl 5 module which defines subroutines
+to print arrays of data in a nicely formatted listing, using one of
+four possible formats: simple table, boxed table, list style, and
+HTML-formatting (for World-Wide-Web output).  See the documentation
+on ShowTable.pm for details on the formatting.
+
+The program "showtable" reads tab (or other character) delimited data
+from a file, or STDIN, and columnizes the data within, and then feeds
+the array of data to the ShowTable module for display.  In other words,
+showtable is a data formatter program.  Using the '-html' option,
+showtable can accept ASCII tablular data and format it appropriately
+for display through a Web-browser.
+
+Both the the ShowTable.pm module and the showtable program have
+embedded POD text with which man or HTML pages can be created.
+
+For detailed usage information, you can do:
+
+    pod2man ShowTable.pm | nroff -man 
+    pod2man showtable    | nroff -man
+
+The program and module are accompanied with a Makefile, this README, a
+test program (test.pl), a reference test output file, and the GNU
+License, under which this software is freely available.
+
+The archive is available on:
+
+    ftp://hub.ucsb.edu/pub/prog/perl/ShowTable.tar.gz
+    ftp://hub.ucsb.edu/pub/prog/perl/ShowTable-$VER.tar.gz
+
+where $VER is the latest version.
+
+Contributions or improvements are welcome.
+_______________________________________
+Alan K. Stebbens <aks@hub.ucsb.edu>
+College of Engineering
+University of California, Santa Barbara
